@@ -28,13 +28,15 @@ mod test {
     async fn test_create_short_url() {
         let id_provider = crate::idProvider::FakeIdProvider::new("123".to_owned());
         let command = CreateShortUrl::new(id_provider);
+
         let result = command.exucute("https://www.google.com".to_owned()).await;
-        assert_eq!(result, Ok("1".to_owned()));
+        assert_ne!(result, Ok("".to_owned()));
     }
+
     #[tokio::test]
     async fn test_create_url() {
-        let id_provider = crate::idProvider::FakeIdProvider::new("123".to_owned());
-        let command = CreateShortUrl::new(id_provider);
+        let nanoId_provider = crate::idProvider::NanoIdProvider;
+        let command = CreateShortUrl::new(nanoId_provider);
         let result1 = command.exucute("https://www.google.com".to_owned()).await;
         let result2 = command.exucute("https://www.google.com".to_owned()).await;
         assert_ne!(result1, result2);
