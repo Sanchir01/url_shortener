@@ -24,7 +24,7 @@ mod test {
         let res = create_command
             .exucute("https://www.google.com".to_owned())
             .await;
-        let res2 = get_query.exucute(&res.unwrap()).unwrap();
+        let res2 = get_query.exucute(&res.unwrap()).await.unwrap();
 
         assert_eq!(res2, "https://www.google.com".to_owned());
     }

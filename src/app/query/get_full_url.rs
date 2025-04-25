@@ -15,7 +15,7 @@ where
     pub fn new(repo: R) -> Self {
         Self { repo }
     }
-    pub fn exucute(&self, id: &str) -> Result<String, String> {
+    pub async fn exucute(&self, id: &str) -> Result<String, String> {
         self.repo.save(id)
     }
 }
@@ -45,7 +45,7 @@ mod test {
 
         let query = GetFullUrl::new(repo);
 
-        let res = query.exucute("123");
+        let res = query.exucute("123").await;
 
         assert_eq!(res, Ok("https://www.google.com".to_owned()));
     }
@@ -58,7 +58,7 @@ mod test {
         let repo = InMemoryRepository::new(store);
         let query = GetFullUrl::new(repo);
 
-        let res = query.exucute("123");
+        let res = query.exucute("123").await;
         assert_eq!(res, Ok("https://www.google.com".to_owned()));
     }
 
@@ -70,8 +70,8 @@ mod test {
         let repo = InMemoryRepository::new(store);
         let query = GetFullUrl::new(repo);
 
-        let res = query.exucute("123");
-        let res2 = query.exucute("456");
+        let res = query.exucute("123").await;
+        let res2 = query.exucute("456").await;
 
         assert_eq!(res, Ok("https://www.google.com".to_owned()));
         assert_eq!(res2, Ok("https://www.google.com".to_owned()));
